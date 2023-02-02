@@ -16,3 +16,26 @@ class Transactions(object):
 
     def _get_request(self, params: dict) -> Dict[str, Union[str, float, int]]:
         return requests.get(self.endpoint, params=params).json()
+
+    def getstatus(
+        self,
+        txhash: str,
+    ) -> Dict[str, Union[str, float, int]]:
+        """
+        Returns the status code of a contract execution.
+        """
+        schema = {**self.params, "action": "getstatus", "txhash": txhash}
+        return self._get_request(schema)
+
+    def gettxreceiptstatus(
+        self,
+        txhash: str,
+    ) -> Dict[str, Union[str, float, int]]:
+        """
+        Returns the status code of a transaction execution.
+
+        Note: Only applicable for post Byzantium Fork transactions.
+        https://www.investopedia.com/news/what-byzantium-hard-fork-ethereum/
+        """
+        schema = {**self.params, "action": "gettxreceiptstatus", "txhash": txhash}
+        return self._get_request(schema)
